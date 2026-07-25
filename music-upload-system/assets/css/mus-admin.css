@@ -1,0 +1,7 @@
+/* Music Upload System - wp-admin styles for the Song Submissions screens */
+
+.mus-review-actions .button {
+	width: 100%;
+	text-align: center;
+	box-sizing: border-box;
+}
