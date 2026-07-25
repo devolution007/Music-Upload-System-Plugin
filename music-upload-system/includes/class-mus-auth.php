@@ -24,6 +24,27 @@ class MUS_Auth {
 
 		add_action( 'init', array( $this, 'handle_register_submission' ) );
 		add_action( 'init', array( $this, 'handle_login_submission' ) );
+		add_action( 'user_register', array( $this, 'assign_artist_role_on_native_registration' ) );
+	}
+
+	/**
+	 * Visitors who sign up through WordPress's own wp-login.php?action=register
+	 * form (instead of the [mus_register] shortcode) would otherwise get the
+	 * site's default new-user role (usually Subscriber). This makes sure any
+	 * front-end self-registration ends up with the Artist role too, so they
+	 * can access the upload form and dashboard either way.
+	 */
+	public function assign_artist_role_on_native_registration( $user_id ) {
+		global $pagenow;
+
+		if ( 'wp-login.php' !== $pagenow ) {
+			return; // Not a front-end self-registration (e.g. created from wp-admin).
+		}
+
+		$user = get_userdata( $user_id );
+		if ( $user ) {
+			$user->set_role( MUS_ARTIST_ROLE );
+		}
 	}
 
 	public function render_register_shortcode() {
