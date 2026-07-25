@@ -1,5 +1,5 @@
 === Music Upload System ===
-Contributors: luxproductions
+Contributors: devolution
 Tags: music, upload, stripe, submissions, audio
 Requires at least: 5.8
 Tested up to: 6.6
