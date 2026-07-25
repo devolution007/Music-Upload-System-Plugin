@@ -133,10 +133,12 @@ class MUS_Post_Type {
 		$artist_id     = (int) get_post_meta( $post->ID, 'mus_artist_id', true );
 		$description   = get_post_meta( $post->ID, 'mus_description', true );
 		$attachment_id = (int) get_post_meta( $post->ID, 'mus_audio_attachment_id', true );
+		$epk_attachment_id = (int) get_post_meta( $post->ID, 'mus_epk_attachment_id', true );
 		$payment_status = get_post_meta( $post->ID, 'mus_stripe_payment_status', true );
 		$amount_paid   = get_post_meta( $post->ID, 'mus_amount_paid', true );
 		$artist        = $artist_id ? get_userdata( $artist_id ) : false;
 		$audio_url     = $attachment_id ? wp_get_attachment_url( $attachment_id ) : '';
+		$epk_url       = $epk_attachment_id ? wp_get_attachment_url( $epk_attachment_id ) : '';
 		?>
 		<p>
 			<strong><?php esc_html_e( 'Artist:', 'music-upload-system' ); ?></strong>
@@ -163,6 +165,12 @@ class MUS_Post_Type {
 				<?php esc_html_e( 'No audio file attached.', 'music-upload-system' ); ?>
 			<?php endif; ?>
 		</p>
+		<?php if ( $epk_url ) : ?>
+			<p>
+				<strong><?php esc_html_e( 'Electronic Press Kit:', 'music-upload-system' ); ?></strong><br>
+				<a href="<?php echo esc_url( $epk_url ); ?>" download><?php esc_html_e( 'Download .epk file', 'music-upload-system' ); ?></a>
+			</p>
+		<?php endif; ?>
 		<?php
 	}
 

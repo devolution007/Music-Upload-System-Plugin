@@ -4,13 +4,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Front-end song upload form: title, description, MP3 file.
- * On successful submission, creates a "mus_pending_payment" post and
- * hands off to MUS_Stripe to start the checkout flow.
+ * Front-end song upload form: title, description, MP3 file, and an
+ * optional Electronic Press Kit (.epk) file. On successful submission,
+ * creates a "mus_pending_payment" post and hands off to MUS_Stripe to
+ * start the checkout flow.
  */
 class MUS_Upload {
 
 	const MAX_FILE_SIZE = 26214400; // 25MB.
+	const MAX_EPK_SIZE  = 52428800; // 50MB.
 
 	private static $instance = null;
 
@@ -24,6 +26,16 @@ class MUS_Upload {
 	private function __construct() {
 		add_shortcode( 'mus_upload_form', array( $this, 'render_upload_form' ) );
 		add_action( 'init', array( $this, 'handle_upload_submission' ) );
+		add_filter( 'upload_mimes', array( $this, 'allow_epk_mime_type' ) );
+	}
+
+	/**
+	 * Registers the .epk extension (Electronic Press Kit) so it can be
+	 * uploaded via media_handle_upload() alongside the required MP3.
+	 */
+	public function allow_epk_mime_type( $mimes ) {
+		$mimes['epk'] = 'application/octet-stream';
+		return $mimes;
 	}
 
 	public function render_upload_form() {
@@ -73,6 +85,10 @@ class MUS_Upload {
 				<p>
 					<label for="mus_song_file"><?php esc_html_e( 'MP3 Audio File', 'music-upload-system' ); ?></label>
 					<input type="file" id="mus_song_file" name="mus_song_file" accept="audio/mpeg,.mp3" required>
+				</p>
+				<p>
+					<label for="mus_epk_file"><?php esc_html_e( 'Electronic Press Kit (.epk) - optional', 'music-upload-system' ); ?></label>
+					<input type="file" id="mus_epk_file" name="mus_epk_file" accept=".epk">
 				</p>
 				<?php wp_nonce_field( 'mus_upload_action', 'mus_upload_nonce' ); ?>
 				<p>
@@ -141,6 +157,24 @@ class MUS_Upload {
 			}
 		}
 
+		$has_epk_file = ! empty( $_FILES['mus_epk_file'] ) && UPLOAD_ERR_NO_FILE !== $_FILES['mus_epk_file']['error'];
+
+		if ( $has_epk_file ) {
+			if ( UPLOAD_ERR_OK !== $_FILES['mus_epk_file']['error'] ) {
+				$errors[] = __( 'There was an error uploading your EPK file. Please try again.', 'music-upload-system' );
+			} else {
+				$epk_file      = $_FILES['mus_epk_file'];
+				$epk_file_type = wp_check_filetype( $epk_file['name'] );
+
+				if ( $epk_file['size'] > self::MAX_EPK_SIZE ) {
+					$errors[] = __( 'EPK file is too large. Maximum size is 50MB.', 'music-upload-system' );
+				}
+				if ( 'epk' !== strtolower( $epk_file_type['ext'] ) ) {
+					$errors[] = __( 'The Electronic Press Kit must be a .epk file.', 'music-upload-system' );
+				}
+			}
+		}
+
 		if ( ! empty( $errors ) ) {
 			set_transient( 'mus_upload_errors_' . $user_id, $errors, 60 );
 			return;
@@ -174,10 +208,27 @@ class MUS_Upload {
 			return;
 		}
 
+		$epk_attachment_id = 0;
+
+		if ( $has_epk_file ) {
+			$epk_attachment_id = media_handle_upload( 'mus_epk_file', $post_id );
+
+			if ( is_wp_error( $epk_attachment_id ) ) {
+				wp_delete_attachment( $attachment_id, true );
+				wp_delete_post( $post_id, true );
+				set_transient( 'mus_upload_errors_' . $user_id, array( __( 'Could not process your EPK file. Please try again.', 'music-upload-system' ) ), 60 );
+				return;
+			}
+		}
+
 		update_post_meta( $post_id, 'mus_artist_id', $user_id );
 		update_post_meta( $post_id, 'mus_description', $description );
 		update_post_meta( $post_id, 'mus_audio_attachment_id', $attachment_id );
 		update_post_meta( $post_id, 'mus_stripe_payment_status', 'unpaid' );
+
+		if ( $epk_attachment_id ) {
+			update_post_meta( $post_id, 'mus_epk_attachment_id', $epk_attachment_id );
+		}
 
 		$checkout_url = MUS_Stripe::instance()->create_checkout_session( $post_id );
 

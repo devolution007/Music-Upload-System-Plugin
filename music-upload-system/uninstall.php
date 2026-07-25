@@ -37,6 +37,10 @@ foreach ( $submissions as $post_id ) {
 	if ( $attachment_id ) {
 		wp_delete_attachment( $attachment_id, true );
 	}
+	$epk_attachment_id = get_post_meta( $post_id, 'mus_epk_attachment_id', true );
+	if ( $epk_attachment_id ) {
+		wp_delete_attachment( $epk_attachment_id, true );
+	}
 	wp_delete_post( $post_id, true );
 }
 

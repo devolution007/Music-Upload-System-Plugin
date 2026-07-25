@@ -39,10 +39,11 @@ class MUS_Guidelines {
 				<li><?php esc_html_e( 'An MP3 audio file of your song (max 25MB).', 'music-upload-system' ); ?></li>
 				<li><?php esc_html_e( 'A song title.', 'music-upload-system' ); ?></li>
 				<li><?php esc_html_e( 'A short description of the song.', 'music-upload-system' ); ?></li>
+				<li><?php esc_html_e( 'Optionally, an Electronic Press Kit (.epk file, max 50MB) with your bio, photos, and promotional materials.', 'music-upload-system' ); ?></li>
 			</ul>
 
 			<h3><?php esc_html_e( '3. Upload Your Song', 'music-upload-system' ); ?></h3>
-			<p><?php esc_html_e( 'Log in and use the song upload form to submit your title, description, and MP3 file.', 'music-upload-system' ); ?></p>
+			<p><?php esc_html_e( 'Log in and use the song upload form to submit your title, description, MP3 file, and (optionally) your .epk press kit.', 'music-upload-system' ); ?></p>
 
 			<h3><?php esc_html_e( '4. Pay the Submission Fee', 'music-upload-system' ); ?></h3>
 			<p>

@@ -15,7 +15,7 @@ Lets independent artists register, pay a submission fee via Stripe, and upload s
 Music Upload System adds a full submission workflow to LuxProductions:
 
 1. Artists create an account.
-2. Artists upload an MP3, song title, and description.
+2. Artists upload an MP3, song title, description, and optionally an Electronic Press Kit (.epk).
 3. Artists pay a $25 (configurable) submission fee via Stripe Checkout.
 4. The submission is sent for admin review.
 5. Once approved, the song is published with a front-end audio player.
@@ -23,7 +23,7 @@ Music Upload System adds a full submission workflow to LuxProductions:
 **Features**
 
 * Artist registration and login (front-end forms, no separate account system needed).
-* Frontend audio upload form with MP3 validation.
+* Frontend audio upload form with MP3 validation, plus an optional .epk (Electronic Press Kit) attachment.
 * Secure Stripe Checkout integration (no card data ever touches your server).
 * Admin approval system with approve/reject actions and email notifications.
 * Audio player shortcode for published songs.

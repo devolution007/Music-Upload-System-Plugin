@@ -5,7 +5,7 @@ A WordPress plugin built for LuxProductions that lets independent artists regist
 ## Workflow
 
 1. Artist creates an account.
-2. Artist uploads an MP3 file, song title, and description.
+2. Artist uploads an MP3 file, song title, and description (optionally, an Electronic Press Kit `.epk` file too).
 3. Artist pays a $25 (configurable) submission fee via Stripe Checkout.
 4. The submission is sent for admin review.
 5. Once approved, the song is published with a front-end audio player.
@@ -65,7 +65,7 @@ The **Song Upload Guidelines** page is created automatically and uses `[mus_guid
 
 ## Admin review
 
-Submissions appear under **Song Uploads** in wp-admin once an artist has paid. Each submission shows the artist, description, and an inline audio player, with **Approve & Publish** / **Reject** actions. Approving publishes the song (it appears in `[mus_published_songs]`); rejecting notifies the artist and lets them see the reason on their dashboard.
+Submissions appear under **Song Uploads** in wp-admin once an artist has paid. Each submission shows the artist, description, an inline audio player, and a download link for the artist's Electronic Press Kit if one was attached, with **Approve & Publish** / **Reject** actions. Approving publishes the song (it appears in `[mus_published_songs]`); rejecting notifies the artist and lets them see the reason on their dashboard.
 
 ## Uninstalling
 
