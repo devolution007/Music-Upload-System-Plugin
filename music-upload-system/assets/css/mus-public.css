@@ -1,0 +1,187 @@
+/* Music Upload System - public-facing styles */
+
+.mus-form-wrap {
+	max-width: 480px;
+	margin: 0 auto 2em;
+	box-sizing: border-box;
+}
+
+.mus-form-wrap p {
+	margin-bottom: 1em;
+}
+
+.mus-form-wrap label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 0.35em;
+}
+
+.mus-form-wrap input[type="text"],
+.mus-form-wrap input[type="email"],
+.mus-form-wrap input[type="password"],
+.mus-form-wrap input[type="file"],
+.mus-form-wrap textarea {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.6em 0.75em;
+	border: 1px solid #ccd0d4;
+	border-radius: 4px;
+	font-size: 1em;
+}
+
+.mus-button,
+.mus-form-wrap button {
+	display: inline-block;
+	background: #1d4ed8;
+	color: #fff;
+	border: none;
+	padding: 0.7em 1.4em;
+	border-radius: 4px;
+	font-size: 1em;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.mus-button:hover,
+.mus-form-wrap button:hover {
+	background: #1e40af;
+	color: #fff;
+}
+
+.mus-button-small {
+	padding: 0.35em 0.9em;
+	font-size: 0.85em;
+}
+
+.mus-notice {
+	padding: 0.9em 1.1em;
+	border-radius: 4px;
+	margin-bottom: 1em;
+}
+
+.mus-notice.mus-error {
+	background: #fdecea;
+	border: 1px solid #f5c2c0;
+	color: #7a1e1e;
+}
+
+.mus-notice.mus-success {
+	background: #e7f7ec;
+	border: 1px solid #b7e4c7;
+	color: #1e4620;
+}
+
+.mus-notice.mus-error ul {
+	margin: 0;
+	padding-left: 1.2em;
+}
+
+.mus-fee-notice {
+	font-size: 0.95em;
+	color: #555;
+}
+
+/* Song grid / player */
+
+.mus-song-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+	gap: 1.25em;
+}
+
+.mus-song-card {
+	border: 1px solid #e2e4e7;
+	border-radius: 6px;
+	padding: 1em;
+	box-sizing: border-box;
+}
+
+.mus-song-title {
+	margin: 0 0 0.2em;
+	font-size: 1.1em;
+}
+
+.mus-song-artist {
+	margin: 0 0 0.6em;
+	color: #666;
+	font-size: 0.9em;
+}
+
+.mus-audio-player {
+	width: 100%;
+	margin-bottom: 0.6em;
+}
+
+.mus-song-description {
+	font-size: 0.9em;
+	color: #444;
+}
+
+/* Dashboard table */
+
+.mus-dashboard-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.mus-dashboard-table th,
+.mus-dashboard-table td {
+	text-align: left;
+	padding: 0.6em 0.5em;
+	border-bottom: 1px solid #e2e4e7;
+	vertical-align: top;
+}
+
+.mus-status {
+	display: inline-block;
+	padding: 0.15em 0.6em;
+	border-radius: 3px;
+	font-size: 0.85em;
+	background: #eee;
+}
+
+.mus-status-publish {
+	background: #d6f5df;
+	color: #1e4620;
+}
+
+.mus-status-mus_awaiting_review {
+	background: #fff3cd;
+	color: #7a5b00;
+}
+
+.mus-status-mus_pending_payment {
+	background: #f0f0f0;
+	color: #555;
+}
+
+.mus-status-mus_rejected {
+	background: #fdecea;
+	color: #7a1e1e;
+}
+
+@media (max-width: 600px) {
+	.mus-dashboard-table,
+	.mus-dashboard-table thead,
+	.mus-dashboard-table tbody,
+	.mus-dashboard-table th,
+	.mus-dashboard-table td,
+	.mus-dashboard-table tr {
+		display: block;
+	}
+
+	.mus-dashboard-table thead tr {
+		display: none;
+	}
+
+	.mus-dashboard-table td {
+		border: none;
+		padding: 0.3em 0.5em;
+	}
+
+	.mus-dashboard-table tr {
+		border-bottom: 1px solid #e2e4e7;
+		padding-bottom: 0.5em;
+		margin-bottom: 0.5em;
+	}
+}
